@@ -56,3 +56,9 @@ font-weight: bold;
   display: none;
     }
 }
+
+@media screen and (max-widht:640px){
+  .link{
+    display: none;
+  }
+}
