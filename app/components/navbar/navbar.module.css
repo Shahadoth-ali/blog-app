@@ -26,7 +26,7 @@ font-weight: bold;
     font-size: 20px;
 }
 
-@media screen and (max-widht:1280px){
+@media screen and (max-width:1280px){
     .logo{
         font-size: 32px;
     }
@@ -36,7 +36,7 @@ font-weight: bold;
     }
 }
 
-@media screen and (max-widht:1024px){
+@media screen and (max-width:1024px){
     .social{
       display: none;
     }
@@ -45,19 +45,22 @@ font-weight: bold;
     }
 }
 
-@media screen and (max-widht:768px){
+@media screen and (max-width:768px){
     .logo{
     font-size: 24px;
     }
 }
 
-@media screen and (max-widht:768px){
+@media screen and (max-width:768px){
     .link{
   display: none;
     }
 }
 
-@media screen and (max-widht:640px){
+@media screen and (max-width:640px){
+    .links{
+        justify-content: flex-end;
+    }
   .link{
     display: none;
   }
