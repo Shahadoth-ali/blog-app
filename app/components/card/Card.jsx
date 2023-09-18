@@ -3,29 +3,29 @@ import styles from "./card.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Card = () => {
+const Card = ({key,item}) => {
   return (
-    <div className={styles.container}>
-              <div className={styles.imageContainer}>
-          <Image src="/p1.jpeg" alt='' fill className={styles.image}/>
-        </div>
+    <div className={styles.container} key={key}>
+             
+          {item.img && (
+             <div className={styles.imageContainer}>
+            <Image src={item.img} alt='' fill className={styles.image}/>
+            </div>
+          )}
+       
         <div className={styles.textContainer}>
             <div className={styles.detail}>
-                <span className={styles.date}>11.02.2023 - </span>
+                <span className={styles.date}>{item.createdAt.substring(0,10)} - </span>
                 <span className={styles.category}>CULTURE</span>
             </div>
-            <Link href="/">
-            <h1>lorem ipsum dolor sit amet consector adipiscing elit</h1>
+            <Link href={`/posts/${item.slug}`}>
+            <h1>{item.title}</h1>
             </Link>
          
             <p className={styles.desc}>
-                Lorem diam consetetur sed at accusam et at aliquyam 
-                dolore kasd. Magna amet dolores dolor et takimata 
-                rebum kasd tempor et. Takimata dolore et ipsum 
-                dolore nonumy, rebum lorem et eirmod voluptua
-                 eirmod justo, aliquyam duo magna ea duo. Lorem.
+                {item.desc.substring(0,60)}
             </p>
-            <Link href="/" className={styles.link}>Read More</Link>
+            <Link href={`/posts/${item.slug}`} className={styles.link}>Read More</Link>
         </div>
     </div>
   )
