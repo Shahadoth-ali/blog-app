@@ -12,7 +12,7 @@ import { app } from "@/utils/firebase";
 
 
 
-const storage = getStorage(app);
+
 
 const WritePage = () => {
 
@@ -28,6 +28,7 @@ const [value,setValue]=useState("");
 const [title,setTitle]=useState("");
 
 useEffect(()=>{
+  const storage = getStorage(app);
 const upload=()=>{
   const name=new Date().getTime + file.name;
   const storageRef = ref(storage, name);
