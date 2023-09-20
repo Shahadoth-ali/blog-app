@@ -58,11 +58,11 @@ const data=await getData(slug);
 <div className={styles.content}>
     <div className={styles.post}>
 
-        <div className={styles.description} >
-        {/* //  dangerouslySetInnerHTML={{__html:data?.desc}} */}
-
-<p>{data?.desc}</p>
-        </div>
+        <div className={styles.description} 
+         dangerouslySetInnerHTML={{__html:data?.desc}}
+        />
+         
+       
       
 <div className={styles.comment}>
 <Comments postSlug={slug}/>

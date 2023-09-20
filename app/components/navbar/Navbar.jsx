@@ -24,7 +24,7 @@ const Navbar = () => {
 
 {/* this is second component of navbar */}
 <div className={styles.logo}>
-    lamablog
+    shahadoth_blog
 </div>
 
 {/* this is third component of navbar */}
