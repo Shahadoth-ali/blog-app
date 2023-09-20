@@ -13,10 +13,10 @@ import { app } from "@/utils/firebase";
 
 
 
-const ReactQuill=dynamic(()=>import('react-quill'),{ssr: false});
 
 const WritePage = () => {
-
+  
+  const ReactQuill=dynamic(()=>import('react-quill'),{ssr: false});
   const {status}=useSession();
   const router=useRouter();
   
