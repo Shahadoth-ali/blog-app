@@ -61,7 +61,7 @@ uploadTask.on('state_changed',
 );
 }
 
-file && upload;
+file && upload();
 },[file])
 
 
@@ -90,6 +90,7 @@ const res=await fetch("/api/posts",{
   desc:value,
 img:media,
 slug:slugify(title),
+catSlug:"travel",
   }),
 });
 console.log(res)
@@ -101,6 +102,8 @@ console.log(res)
       <input type="text" placeholder="Title" className={styles.input}
       onChange={e=>setTitle(e.target.value)}
       />
+{/* <input type="text" placeholder="category"/> */}
+
 <div className={styles.editor}>
   <button className={styles.button} onClick={()=>setOpen(!open)}>
     <Image src="/plus.png" alt="" width={16} height={16}/>
