@@ -1,15 +1,41 @@
+"use client";
 
 import Image from "next/image";
 import styles from "./comments.module.css";
 import Link from "next/link";
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+
+
+const fetcher=async (url)=>{
+  const res=await fetch(url);
+const data=await res.json();
+
+if(!res.ok){
+  const error=new Error(data.message);
+  throw error;
+}
+return data;
+};
 
 
 
+const Comments = ({postSlug}) => {
 
+const {status}=useSession();
 
-const Comments = () => {
+const {data,mutate,isLoading}=useSWR(`http://localhost:3000/api/comments?postSlug=${postSlug}`,fetcher);
 
-const status="authenticated"
+const [desc,setDesc]=useState("");
+
+const handleSubmit = async ()=>{
+await fetch("/api/comments",{
+  method:"POST",
+  body:JSON.stringify({desc,postSlug}),
+});
+mutate();
+}
 
 
   return (
@@ -18,8 +44,12 @@ const status="authenticated"
    {
     status==="authenticated" ? (
        <div className={styles.write}>
-        <textarea placeholder="write a comment..." className={styles.input}/>
-        <button className={styles.button}>Send</button>
+        <textarea placeholder="write a comment..." className={styles.input}
+        onChange={e=>setDesc(e.target.value)}
+        />
+        <button className={styles.button}
+        onClick={handleSubmit}
+        >Send</button>
        </div>
     ):(
         <Link href="/login">Login to write a comment</Link>
@@ -29,79 +59,26 @@ const status="authenticated"
 
     <div className={styles.comments}>
 
+{isLoading ? "loading"  
+:data?.map((item)=>(
+  <div className={styles.comment} key={item._id}>
+  <div className={styles.user}>
 
-        <div className={styles.comment}>
-            <div className={styles.user}>
-                <Image src="/p1.jpeg" 
-                alt=""  width={50} height={50}
-                 className={styles.image}/>
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>John Doe</span>  
-                  <span className={styles.date}>01.01.2023</span>  
-                </div>
-            </div>
+     {item?.user?.image &&  (
+      <Image src={item.user.image}
+      alt=""  width={50} height={50}
+       className={styles.image}/>
+     )}
+       
+      <div className={styles.userInfo}>
+        <span className={styles.username}>{item.user.name}</span>  
+        <span className={styles.date}>{item.createdAt}</span>  
+      </div>
+  </div>
 
-            <p className={styles.desc}> Sanctus tempor gubergren dolor et eos sed consetetur. 
-                Ipsum elitr eirmod accusam lorem, sed aliquyam no
-                 gubergren gubergren ea, sadipscing takimata eos
-                  sanctus lorem erat, et aliquyam et lorem et.. </p>
-        </div>
-
-
-        <div className={styles.comment}>
-            <div className={styles.user}>
-                <Image src="/p1.jpeg" 
-                alt=""  width={50} height={50}
-                 className={styles.image}/>
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>John Doe</span>  
-                  <span className={styles.date}>01.01.2023</span>  
-                </div>
-            </div>
-
-            <p className={styles.desc}> Sanctus tempor gubergren dolor et eos sed consetetur. 
-                Ipsum elitr eirmod accusam lorem, sed aliquyam no
-                 gubergren gubergren ea, sadipscing takimata eos
-                  sanctus lorem erat, et aliquyam et lorem et.. </p>
-        </div>
-
-
-        <div className={styles.comment}>
-            <div className={styles.user}>
-                <Image src="/p1.jpeg" 
-                alt=""  width={50} height={50}
-                 className={styles.image}/>
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>John Doe</span>  
-                  <span className={styles.date}>01.01.2023</span>  
-                </div>
-            </div>
-
-            <p className={styles.desc}> Sanctus tempor gubergren dolor et eos sed consetetur. 
-                Ipsum elitr eirmod accusam lorem, sed aliquyam no
-                 gubergren gubergren ea, sadipscing takimata eos
-                  sanctus lorem erat, et aliquyam et lorem et.. </p>
-        </div>
-
-
-        <div className={styles.comment}>
-            <div className={styles.user}>
-                <Image src="/p1.jpeg" 
-                alt=""  width={50} height={50}
-                 className={styles.image}/>
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>John Doe</span>  
-                  <span className={styles.date}>01.01.2023</span>  
-                </div>
-            </div>
-
-            <p className={styles.desc}> Sanctus tempor gubergren dolor et eos sed consetetur. 
-                Ipsum elitr eirmod accusam lorem, sed aliquyam no
-                 gubergren gubergren ea, sadipscing takimata eos
-                  sanctus lorem erat, et aliquyam et lorem et.. </p>
-        </div>
-
-
+  <p className={styles.desc}>{item.desc} </p>
+</div>
+))}
         
     </div>
     </div>
