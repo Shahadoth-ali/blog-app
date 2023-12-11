@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const Card = ({key,item}) => {
+  
   return (
     <div className={styles.container} key={key}>
              
